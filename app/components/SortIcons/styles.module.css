@@ -1,0 +1,10 @@
+.columnFilter {
+  display: inline-flex;
+  flex-direction: column;
+  height: 1.5em;
+  vertical-align: middle;
+}
+
+.iconActive {
+  color: gold;
+}
