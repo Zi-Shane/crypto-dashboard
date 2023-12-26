@@ -1,29 +1,27 @@
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 import styles from './styles.module.css';
-import { useState } from 'react';
-import { sortAttr } from '..';
 
 export function SortIcons({
   type,
   handleSort,
-  sortByThis,
+  sortAttr,
 }: {
   type: string;
   handleSort: () => void;
-  sortByThis: sortAttr;
+  sortAttr: SortAttr;
 }) {
   return (
     <div className={styles.columnFilter} onClick={handleSort}>
       <IoMdArrowDropup
         className={
-          !sortByThis.desc && sortByThis.type === type
+          !sortAttr.desc && sortAttr.type === type
             ? `${styles.iconActive}`
             : ''
         }
       />
       <IoMdArrowDropdown
         className={
-          sortByThis.desc && sortByThis.type === type
+          sortAttr.desc && sortAttr.type === type
             ? `${styles.iconActive}`
             : ''
         }
