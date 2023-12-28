@@ -29,4 +29,9 @@ type SocketRespData = {
   data: ProductUpdate[];
 };
 
-type SortAttr = { type: string; desc: boolean };
+type SortAttr = { column: columnName; desc: boolean };
+
+type QuoteAttr = {
+  group: QuoteGroup;
+  name: string;
+};

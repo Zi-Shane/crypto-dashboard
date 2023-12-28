@@ -1,24 +1,25 @@
 import { useProducts } from 'hooks';
-import { TableData } from 'components';
-import { column } from '@/constants';
+import { TableData, FilterLabels } from 'components';
+import { CoinQuotes, QuoteGroup, ColumnName } from '@/constants';
 import { useState } from 'react';
-import { FilterLabels } from '../FilterLabels';
 
 export function ProductTable() {
-  const [quoteType, setQuoteType] = useState('Currency');
-  const [quote, setQuote] = useState('ALL');
-  const [sortAttr, setSortAttr] = useState({
-    type: column.volumn,
+  const [quote, setQuote] = useState({
+    group: QuoteGroup.coin,
+    name: CoinQuotes[0],
+  });
+  const [sortAttr, setSortAttr] = useState<SortAttr>({
+    column: ColumnName.volumn,
     desc: true,
   });
-  const { selectedProduct } = useProducts(quote, sortAttr);
+  const { selectedProduct } = useProducts(quote.name, sortAttr);
 
-  function handleSort(orderBy: string) {
+  function handleSort(orderBy: ColumnName) {
     let newDesc = true;
-    if (orderBy == sortAttr.type) {
+    if (orderBy == sortAttr.column) {
       newDesc = !sortAttr.desc;
     }
-    setSortAttr({ type: orderBy, desc: newDesc });
+    setSortAttr({ column: orderBy, desc: newDesc });
   }
 
   return (

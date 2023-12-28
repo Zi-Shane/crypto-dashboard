@@ -1,16 +1,17 @@
-export const column = {
-  symbol: 'symbol',
-  lastPrice: 'lastPrice',
-  percentage: 'percentage',
-  volumn: 'volumn',
-};
+export enum ColumnName {
+  symbol,
+  lastPrice,
+  percentage,
+  volumn,
+}
 
-export const QuoteGroup = {
-  currency: 'currency',
-  coin: 'coin',
-};
+export enum QuoteGroup {
+  currency = 'currency',
+  coin = 'coin',
+}
 
 export const CurrencyQuotes = [
+  // 'ALL',
   'TRY',
   'NGN',
   'BRL',
@@ -22,7 +23,8 @@ export const CurrencyQuotes = [
   'RON',
 ];
 
-export const CoinQuote = [
+export const CoinQuotes = [
+  // 'ALL',
   'USDT',
   'FDUSD',
   'BTC',

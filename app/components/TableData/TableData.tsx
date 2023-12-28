@@ -1,11 +1,11 @@
-import { number2unit } from 'Utilies';
+import { number2unit } from '@/utilies';
 import { SortIcons } from 'components';
 import styles from './styles.module.css';
-import { column } from '@/constants';
+import { ColumnName } from '@/constants';
 
 type TableDataProps = {
   products: Map<string, Product24hrTick>;
-  handleSort: (orderBy: string) => void;
+  handleSort: (orderBy: ColumnName) => void;
   sortAttr: SortAttr;
 };
 
@@ -20,24 +20,24 @@ export function TableData({
         <div className={`${styles.tableCell} ${styles.tableSymbolCell}`}>
           <span>Symbol</span>
           <SortIcons
-            type={column.symbol}
-            handleSort={() => handleSort(column.symbol)}
+            column={ColumnName.symbol}
+            handleSort={() => handleSort(ColumnName.symbol)}
             sortAttr={sortAttr}
           />
         </div>
         <div className={styles.tableCell}>
           <span>Last&nbsp;Price</span>
           <SortIcons
-            type={column.lastPrice}
-            handleSort={() => handleSort(column.lastPrice)}
+            column={ColumnName.lastPrice}
+            handleSort={() => handleSort(ColumnName.lastPrice)}
             sortAttr={sortAttr}
           />
         </div>
         <div className={styles.tableCell}>
           <span>24hr&nbsp;Price&nbsp;Change&nbsp;Percent</span>
           <SortIcons
-            type={column.percentage}
-            handleSort={() => handleSort(column.percentage)}
+            column={ColumnName.percentage}
+            handleSort={() => handleSort(ColumnName.percentage)}
             sortAttr={sortAttr}
           />
         </div>
@@ -47,8 +47,8 @@ export function TableData({
         <div className={styles.tableCell}>
           <span>Volume</span>
           <SortIcons
-            type={column.volumn}
-            handleSort={() => handleSort(column.volumn)}
+            column={ColumnName.volumn}
+            handleSort={() => handleSort(ColumnName.volumn)}
             sortAttr={sortAttr}
           />
         </div>

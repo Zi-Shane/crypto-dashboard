@@ -4,11 +4,11 @@ import {
   fromTickSocket,
   getRespProduct24hrTick,
 } from 'API';
-import { changedPercentage, sortProductsMap } from 'Utilies';
+import { changedPercentage, sortProductsMap } from '@/utilies';
 import { useEffect, useState } from 'react';
 
 type RetFetchProducts = {
-  quoteGroup: Map<string, string[]>;
+  quoteMap: Map<string, string[]>;
   selectedProduct: Map<string, Product24hrTick>;
 };
 
@@ -19,7 +19,7 @@ export function useProducts(
   const [products, setProducts] = useState(
     new Map<string, Product24hrTick>([]),
   );
-  const [quoteGroup] = useState<Map<string, string[]>>(new Map([]));
+  const [quoteMap] = useState<Map<string, string[]>>(new Map([]));
 
   function getProduct24hrTick() {
     let res: Map<string, Product24hrTick> = new Map();
@@ -28,11 +28,11 @@ export function useProducts(
       listData.sort((a, b) => b.qv - a.qv);
       for (const value of listData) {
         if (value.qv < 1e3) continue;
-        const cur = quoteGroup.get(value.q);
+        const cur = quoteMap.get(value.q);
         if (cur) {
-          quoteGroup.set(value.q, [...cur, value.b]);
+          quoteMap.set(value.q, [...cur, value.b]);
         } else {
-          quoteGroup.set(value.q, [value.b]);
+          quoteMap.set(value.q, [value.b]);
         }
         value.p = changedPercentage(value.o, value.c);
         res.set(value.s, value);
@@ -71,10 +71,10 @@ export function useProducts(
 
   function filterProducts(): Map<string, Product24hrTick> {
     if (quote == 'ALL') {
-      return sortProductsMap(sortAttr.type, sortAttr.desc, products);
+      return sortProductsMap(sortAttr.column, sortAttr.desc, products);
     }
 
-    const baseList = quoteGroup.get(quote);
+    const baseList = quoteMap.get(quote);
     let ret = new Map<string, Product24hrTick>([]);
 
     if (baseList) {
@@ -85,10 +85,10 @@ export function useProducts(
       }
     }
 
-    return sortProductsMap(sortAttr.type, sortAttr.desc, ret);
+    return sortProductsMap(sortAttr.column, sortAttr.desc, ret);
   }
 
   const selectedProduct = filterProducts();
 
-  return { quoteGroup, selectedProduct };
+  return { quoteMap, selectedProduct };
 }
