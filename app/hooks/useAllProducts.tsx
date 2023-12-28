@@ -6,16 +6,17 @@ import {
   subscribeTickSocket,
 } from 'API';
 import { changedPercentage, sortProductsMap } from 'Utilies';
-import { column } from '@/constants';
 import { useCallback, useEffect, useState } from 'react';
 
 type RetFetchAllProducts = {
-  products: Map<string, Product24hrTick>;
   quoteGroup: Map<string, string[]>;
-  sortAllProducts: (curType: string, newDesc: boolean) => void;
+  selectedProduct: Map<string, Product24hrTick>;
 };
 
-export function useAllProducts(): RetFetchAllProducts {
+export function useAllProducts(
+  quote: string,
+  sortAttr: SortAttr,
+): RetFetchAllProducts {
   const [products, setProducts] = useState(
     new Map<string, Product24hrTick>([]),
   );
@@ -25,18 +26,17 @@ export function useAllProducts(): RetFetchAllProducts {
     let res: Map<string, Product24hrTick> = new Map();
     getRespProduct24hrTick().then(data => {
       const listData = data.data;
-      // listData.sort((a, b) => b.qv - a.qv);
+      listData.sort((a, b) => b.qv - a.qv);
       for (const value of listData) {
+        if (value.qv < 1e3) continue;
         const cur = quoteGroup.get(value.q);
         if (cur) {
           quoteGroup.set(value.q, [...cur, value.b]);
         } else {
           quoteGroup.set(value.q, [value.b]);
         }
-        // if (value.q == 'USDT') {
         value.p = changedPercentage(value.o, value.c);
         res.set(value.s, value);
-        // }
       }
       setProducts(res);
     });
@@ -73,9 +73,26 @@ export function useAllProducts(): RetFetchAllProducts {
     };
   }, [updateTable]);
 
-  function sortAllProducts(orderBy: string, newDesc: boolean) {
-    setProducts(sortProductsMap(orderBy, newDesc, products));
-  }
+  const getProducts = (quote: string): Map<string, Product24hrTick> => {
+    if (quote == 'ALL') {
+      return sortProductsMap(sortAttr.type, sortAttr.desc, products);
+    }
 
-  return { products, quoteGroup, sortAllProducts };
+    const baseList = quoteGroup.get(quote);
+    let ret = new Map<string, Product24hrTick>([]);
+
+    if (baseList) {
+      for (const base of baseList) {
+        const productName = base + quote;
+        const productInfo = products.get(productName);
+        if (productInfo) ret.set(productName + quote, productInfo);
+      }
+    }
+
+    return sortProductsMap(sortAttr.type, sortAttr.desc, ret);
+  };
+
+  const selectedProduct = getProducts(quote);
+
+  return { quoteGroup, selectedProduct };
 }

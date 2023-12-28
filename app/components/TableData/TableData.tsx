@@ -1,29 +1,19 @@
-import { useEffect, useState } from 'react';
-import { number2unit, sortProductsMap } from 'Utilies';
+import { number2unit } from 'Utilies';
 import { SortIcons } from 'components';
 import styles from './styles.module.css';
 import { column } from '@/constants';
 
 type TableDataProps = {
   products: Map<string, Product24hrTick>;
+  handleSort: (orderBy: string) => void;
+  sortAttr: SortAttr;
 };
 
-export function TableData({ products }: TableDataProps) {
-  const [sortAttr, setSortAttr] = useState({
-    type: column.volumn,
-    desc: true,
-  });
-
-  products = sortProductsMap(sortAttr.type, sortAttr.desc, products);
-
-  function handleSort(orderBy: string) {
-    let newDesc = true;
-    if (orderBy == sortAttr.type) {
-      newDesc = !sortAttr.desc;
-    }
-    setSortAttr({ type: orderBy, desc: newDesc });
-  }
-
+export function TableData({
+  products,
+  handleSort,
+  sortAttr,
+}: TableDataProps) {
   return (
     <div className={styles.table}>
       <div className={styles.tableHeaderRow}>

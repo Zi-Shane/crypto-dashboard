@@ -1,44 +1,34 @@
 import { useAllProducts } from 'hooks';
 import { TableData } from 'components';
-import styles from './styles.module.css';
-import {
-  CurrencyQuotes,
-  CoinQuote,
-  QuoteGroup,
-  column,
-} from '@/constants';
-import { useCallback, useMemo, useState } from 'react';
-import { sortProductsMap } from '@/Utilies';
+import { column } from '@/constants';
+import { useState } from 'react';
 import { FilterLabels } from '../FilterLabels';
 
 export function ProductTable() {
-  const { products, quoteGroup, sortAllProducts } = useAllProducts();
   const [quoteType, setQuoteType] = useState('Currency');
   const [quote, setQuote] = useState('ALL');
+  const [sortAttr, setSortAttr] = useState({
+    type: column.volumn,
+    desc: true,
+  });
+  const { selectedProduct } = useAllProducts(quote, sortAttr);
 
-  const getProducts = (quote: string): Map<string, Product24hrTick> => {
-    if (quote == 'ALL') {
-      return sortProductsMap(column.volumn, true, products);
+  function handleSort(orderBy: string) {
+    let newDesc = true;
+    if (orderBy == sortAttr.type) {
+      newDesc = !sortAttr.desc;
     }
-
-    const baseList = quoteGroup.get(quote);
-    let ret = new Map<string, Product24hrTick>([]);
-
-    if (baseList) {
-      for (const base of baseList) {
-        const productName = base + quote;
-        const productInfo = products.get(productName);
-        if (productInfo) ret.set(productName + quote, productInfo);
-      }
-    }
-
-    return sortProductsMap(column.volumn, true, ret);
-  };
+    setSortAttr({ type: orderBy, desc: newDesc });
+  }
 
   return (
     <div>
       <FilterLabels quote={quote} setQuote={setQuote} />
-      <TableData products={getProducts(quote)} />
+      <TableData
+        products={selectedProduct}
+        handleSort={handleSort}
+        sortAttr={sortAttr}
+      />
     </div>
   );
 }
