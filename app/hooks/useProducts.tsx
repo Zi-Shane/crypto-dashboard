@@ -3,20 +3,19 @@ import {
   connectTickSocket,
   fromTickSocket,
   getRespProduct24hrTick,
-  subscribeTickSocket,
 } from 'API';
 import { changedPercentage, sortProductsMap } from 'Utilies';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-type RetFetchAllProducts = {
+type RetFetchProducts = {
   quoteGroup: Map<string, string[]>;
   selectedProduct: Map<string, Product24hrTick>;
 };
 
-export function useAllProducts(
+export function useProducts(
   quote: string,
   sortAttr: SortAttr,
-): RetFetchAllProducts {
+): RetFetchProducts {
   const [products, setProducts] = useState(
     new Map<string, Product24hrTick>([]),
   );
@@ -44,36 +43,33 @@ export function useAllProducts(
 
   useEffect(() => {
     getProduct24hrTick();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const updateTable = useCallback(
-    (updates: ProductUpdate[]) => {
-      updates.map(update => {
-        const currentData = products.get(update.s);
-        if (currentData) {
-          currentData.c = update.c;
-          currentData.p = changedPercentage(update.o, update.c);
-          currentData.h = update.h;
-          currentData.l = update.l;
-          currentData.qv = update.q;
-          products.set(update.s, currentData);
-        }
-      });
-      setProducts(new Map(products));
-    },
-    [products],
-  );
+  function updateTable(updates: ProductUpdate[]) {
+    updates.map(update => {
+      const currentData = products.get(update.s);
+      if (currentData) {
+        currentData.c = update.c;
+        currentData.p = changedPercentage(update.o, update.c);
+        currentData.h = update.h;
+        currentData.l = update.l;
+        currentData.qv = update.q;
+        products.set(update.s, currentData);
+      }
+    });
+    setProducts(new Map(products));
+  }
+  fromTickSocket(updateTable);
 
   useEffect(() => {
     connectTickSocket();
-    subscribeTickSocket();
-    fromTickSocket(updateTable);
     return () => {
       closeTickSocket();
     };
-  }, [updateTable]);
+  }, []);
 
-  const getProducts = (quote: string): Map<string, Product24hrTick> => {
+  function filterProducts(): Map<string, Product24hrTick> {
     if (quote == 'ALL') {
       return sortProductsMap(sortAttr.type, sortAttr.desc, products);
     }
@@ -90,9 +86,9 @@ export function useAllProducts(
     }
 
     return sortProductsMap(sortAttr.type, sortAttr.desc, ret);
-  };
+  }
 
-  const selectedProduct = getProducts(quote);
+  const selectedProduct = filterProducts();
 
   return { quoteGroup, selectedProduct };
 }

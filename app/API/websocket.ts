@@ -1,9 +1,13 @@
 let ws = new WebSocket('wss://stream.binance.com/stream');
-let open = false;
+const apiCall = {
+  id: 1,
+  method: 'SUBSCRIBE',
+  params: ['!miniTicker@arr@3000ms'],
+};
 
 export function connectTickSocket() {
   ws.onopen = () => {
-    open = true;
+    ws.send(JSON.stringify(apiCall));
     console.log('open connection');
   };
 }
@@ -12,22 +16,6 @@ export function closeTickSocket() {
   ws.onclose = () => {
     console.log('close connection');
   };
-}
-
-export function subscribeTickSocket() {
-  if (ws.readyState === ws.OPEN) {
-    ws.send(
-      `{
-        "id": 1,
-        "method": "SUBSCRIBE",
-        "params": ["!miniTicker@arr@3000ms"]
-    }`,
-    );
-  } else if (ws.readyState === ws.CONNECTING) {
-    ws.addEventListener('open', () => subscribeTickSocket());
-  } else {
-    console.error('readyState error');
-  }
 }
 
 export function fromTickSocket(fn: Function) {

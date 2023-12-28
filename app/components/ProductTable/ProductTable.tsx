@@ -1,4 +1,4 @@
-import { useAllProducts } from 'hooks';
+import { useProducts } from 'hooks';
 import { TableData } from 'components';
 import { column } from '@/constants';
 import { useState } from 'react';
@@ -11,7 +11,7 @@ export function ProductTable() {
     type: column.volumn,
     desc: true,
   });
-  const { selectedProduct } = useAllProducts(quote, sortAttr);
+  const { selectedProduct } = useProducts(quote, sortAttr);
 
   function handleSort(orderBy: string) {
     let newDesc = true;
