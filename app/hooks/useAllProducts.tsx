@@ -5,32 +5,34 @@ import {
   getRespProduct24hrTick,
   subscribeTickSocket,
 } from 'API';
-import { changedPercentage } from 'Utilies';
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import { changedPercentage, sortProductsMap } from 'Utilies';
+import { column } from '@/constants';
+import { useCallback, useEffect, useState } from 'react';
 
 type RetFetchAllProducts = {
   products: Map<string, Product24hrTick>;
-  setProducts: Dispatch<SetStateAction<Map<string, Product24hrTick>>>;
-  sortProductsMap: (curType: string, newDesc: boolean) => void;
+  quoteGroup: Map<string, string[]>;
+  sortAllProducts: (curType: string, newDesc: boolean) => void;
 };
 
 export function useAllProducts(): RetFetchAllProducts {
   const [products, setProducts] = useState(
     new Map<string, Product24hrTick>([]),
   );
+  const [quoteGroup] = useState<Map<string, string[]>>(new Map([]));
 
   function getProduct24hrTick() {
     let res: Map<string, Product24hrTick> = new Map();
     getRespProduct24hrTick().then(data => {
       const listData = data.data;
-      listData.sort((a, b) => b.qv - a.qv);
+      // listData.sort((a, b) => b.qv - a.qv);
       for (const value of listData) {
+        const cur = quoteGroup.get(value.q);
+        if (cur) {
+          quoteGroup.set(value.q, [...cur, value.b]);
+        } else {
+          quoteGroup.set(value.q, [value.b]);
+        }
         // if (value.q == 'USDT') {
         value.p = changedPercentage(value.o, value.c);
         res.set(value.s, value);
@@ -71,33 +73,9 @@ export function useAllProducts(): RetFetchAllProducts {
     };
   }, [updateTable]);
 
-  function sortProductsMap(orderBy: string, newDesc: boolean) {
-    setProducts(
-      new Map(
-        Array.from(products).sort((a, b) => {
-          switch (orderBy) {
-            case 'symbol':
-              if (newDesc) return b[1].s > a[1].s ? 1 : -1;
-              else return b[1].s > a[1].s ? -1 : 1;
-              break;
-            case 'lastPrice':
-              if (newDesc) return b[1].c - a[1].c;
-              else return a[1].c - b[1].c;
-              break;
-            case 'percentage':
-              if (newDesc) return b[1].p - a[1].p;
-              else return a[1].p - b[1].p;
-              break;
-            case 'volumn':
-            default:
-              if (newDesc) return b[1].qv - a[1].qv;
-              else return a[1].qv - b[1].qv;
-              break;
-          }
-        }),
-      ),
-    );
+  function sortAllProducts(orderBy: string, newDesc: boolean) {
+    setProducts(sortProductsMap(orderBy, newDesc, products));
   }
 
-  return { products, setProducts, sortProductsMap };
+  return { products, quoteGroup, sortAllProducts };
 }

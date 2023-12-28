@@ -1,0 +1,41 @@
+.tags {
+  margin: 1em 0;
+  padding: 0.5em 0;
+  font-size: 1em;
+  color: #aaa;
+  font-weight: 500;
+}
+
+.tag {
+  margin: 0 0.1em;
+  padding: 0.1em 0.6em;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.tag:hover {
+  color: #fff;
+  background-color: #444;
+}
+
+.tag.active {
+  color: #fff;
+  background-color: #444;
+}
+
+.quoteTags {
+  font-size: 0.8em;
+}
+
+.quoteTag {
+}
+
+.quoteTag:hover {
+  color: #fff;
+  background-color: #444;
+}
+
+.divider {
+  color: #777;
+}
