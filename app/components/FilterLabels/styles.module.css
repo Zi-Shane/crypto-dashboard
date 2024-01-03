@@ -1,4 +1,7 @@
 .tags {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 0.2em;
   margin: 1em 0;
   padding: 0.5em 0;
   font-size: 1em;

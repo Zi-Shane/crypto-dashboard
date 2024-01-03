@@ -10,11 +10,13 @@ import { useEffect, useState } from 'react';
 type RetFetchProducts = {
   quoteMap: Map<string, string[]>;
   selectedProduct: Map<string, Product24hrTick>;
+  totalRows: number;
 };
 
 export function useProducts(
   quote: string,
   sortAttr: SortAttr,
+  currentPage: number,
 ): RetFetchProducts {
   const [products, setProducts] = useState(
     new Map<string, Product24hrTick>([]),
@@ -69,7 +71,10 @@ export function useProducts(
     };
   }, []);
 
-  function filterProducts(): Map<string, Product24hrTick> {
+  function filterProducts(
+    quoteMap: Map<string, string[]>,
+    products: Map<string, Product24hrTick>,
+  ): Map<string, Product24hrTick> {
     if (quote == 'ALL') {
       return sortProductsMap(sortAttr.column, sortAttr.desc, products);
     }
@@ -88,7 +93,16 @@ export function useProducts(
     return sortProductsMap(sortAttr.column, sortAttr.desc, ret);
   }
 
-  const selectedProduct = filterProducts();
+  function pageProducts(filterdProducts: Map<string, Product24hrTick>) {
+    const end = currentPage * 10;
+    const start = end - 10;
+    const tmp = Array.from(filterdProducts).slice(start, end);
+    return new Map(tmp);
+  }
 
-  return { quoteMap, selectedProduct };
+  let filterdProducts = filterProducts(quoteMap, products);
+  let totalRows = filterdProducts.size;
+  let selectedProduct = pageProducts(filterdProducts);
+
+  return { quoteMap, selectedProduct, totalRows };
 }

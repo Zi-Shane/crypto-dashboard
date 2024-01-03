@@ -1,0 +1,42 @@
+.container,
+.links,
+.link {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0.5em;
+}
+
+.container {
+  justify-content: right;
+}
+
+.links,
+.link {
+  justify-content: center;
+}
+
+.button,
+.link {
+  height: 1.25em;
+  width: 1.25em;
+  padding: 0.25em;
+  color: #aaa;
+  font-weight: 400;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.link.active {
+  color: #fff;
+  background-color: #555;
+}
+
+.button.disabled {
+  color: #666;
+}
+
+.button:hover,
+.link:hover {
+  background-color: #555;
+}

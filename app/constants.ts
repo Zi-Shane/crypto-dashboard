@@ -12,14 +12,14 @@ export enum QuoteGroup {
 
 export const CurrencyQuotes = [
   // 'ALL',
+  'EUR',
+  'GBP',
   'TRY',
+  'UAH',
   'NGN',
   'BRL',
   'RUB',
-  'UAH',
-  'EUR',
   'ZAR',
-  'GBP',
   'RON',
 ];
 
