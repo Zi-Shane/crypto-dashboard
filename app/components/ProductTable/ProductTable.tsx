@@ -1,7 +1,7 @@
 import { useProducts } from 'hooks';
 import { TableData, FilterLabels, Pagination } from 'components';
 import { CoinQuotes, QuoteGroup, ColumnName } from '@/constants';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export function ProductTable() {
   const [quote, setQuote] = useState({
@@ -18,6 +18,18 @@ export function ProductTable() {
     sortAttr,
     currentPage,
   );
+  const resetRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => setCurrentPage(1), [quote]);
+  useEffect(() => scrollToElement(), [currentPage]);
+
+  function scrollToElement() {
+    // Get a reference to the target element
+    // var targetElement = document.getElementById('targetElement');
+
+    // Scroll to the target element
+    if (resetRef.current) resetRef.current.scrollIntoView();
+  }
 
   function handleSort(orderBy: ColumnName) {
     let newDesc = true;
@@ -29,7 +41,11 @@ export function ProductTable() {
 
   return (
     <div>
-      <FilterLabels quote={quote} setQuote={setQuote} />
+      <FilterLabels
+        quote={quote}
+        setQuote={setQuote}
+        resetRef={resetRef}
+      />
       <TableData
         products={selectedProduct}
         handleSort={handleSort}

@@ -65,7 +65,11 @@ export function TableData({
             <div className={styles.tableCell}>
               {Number(value.c).toFixed(2)}
             </div>
-            <div className={styles.tableCell}>
+            <div
+              className={`${styles.tableCell} ${
+                value.p >= 0 ? styles.ups : styles.downs
+              }`}
+            >
               {(value.p * 100).toFixed(2)}%
             </div>
             <div className={styles.tableCell}>

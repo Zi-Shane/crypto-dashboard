@@ -93,16 +93,22 @@ export function useProducts(
     return sortProductsMap(sortAttr.column, sortAttr.desc, ret);
   }
 
-  function pageProducts(filterdProducts: Map<string, Product24hrTick>) {
+  function pageProducts(
+    filterdProducts: Map<string, Product24hrTick>,
+    currentPage: number,
+  ) {
     const end = currentPage * 10;
     const start = end - 10;
     const tmp = Array.from(filterdProducts).slice(start, end);
     return new Map(tmp);
   }
 
+  console.log('total: ', products.size);
   let filterdProducts = filterProducts(quoteMap, products);
   let totalRows = filterdProducts.size;
-  let selectedProduct = pageProducts(filterdProducts);
+  console.log('rows: ', totalRows);
+
+  let selectedProduct = pageProducts(filterdProducts, currentPage);
 
   return { quoteMap, selectedProduct, totalRows };
 }

@@ -15,7 +15,7 @@
 
 .tableRow:first-child {
   border-radius: 10px 0 0 10px;
-  color: black;
+  /* color: black; */
 }
 
 .tableRow:hover {
@@ -24,10 +24,18 @@
 
 .tableCell {
   width: 20em;
-  /* padding: 0.5em; */
   display: table-cell;
   text-align: right;
   vertical-align: middle;
+  padding: 0.5em;
+}
+
+.ups {
+  color: green;
+}
+
+.downs {
+  color: red;
 }
 
 .tableSymbolCell {

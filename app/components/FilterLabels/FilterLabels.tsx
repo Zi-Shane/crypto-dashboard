@@ -1,13 +1,15 @@
 import { CoinQuotes, CurrencyQuotes, QuoteGroup } from '@/constants';
 import styles from './styles.module.css';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, RefObject, SetStateAction } from 'react';
 
 export function FilterLabels({
   quote,
   setQuote,
+  resetRef,
 }: {
   quote: QuoteAttr;
   setQuote: Dispatch<SetStateAction<QuoteAttr>>;
+  resetRef: RefObject<HTMLDivElement>;
 }) {
   function updateQuoteAttr(group: string, name: string) {
     setQuote({ group, name });
@@ -15,7 +17,7 @@ export function FilterLabels({
 
   return (
     <>
-      <div className={styles.tags}>
+      <div className={styles.tags} ref={resetRef}>
         <span
           className={`${styles.tag} ${
             QuoteGroup.coin == quote.group ? styles.active : ''

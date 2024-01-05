@@ -9,6 +9,7 @@
 
 .container {
   justify-content: right;
+  flex-wrap: nowrap;
 }
 
 .links,
@@ -34,6 +35,7 @@
 
 .button.disabled {
   color: #666;
+  cursor: default;
 }
 
 .button:hover,
