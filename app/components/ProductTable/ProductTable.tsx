@@ -1,6 +1,11 @@
 import { useProducts } from 'hooks';
 import { TableData, FilterLabels, Pagination } from 'components';
-import { CoinQuotes, QuoteGroup, ColumnName } from '@/constants';
+import {
+  CoinQuotes,
+  QuoteGroup,
+  ColumnName,
+  PAGE_LIMIT,
+} from '@/constants';
 import { useEffect, useRef, useState } from 'react';
 
 export function ProductTable() {
@@ -54,6 +59,7 @@ export function ProductTable() {
       <Pagination
         totalRows={totalRows}
         currentPage={currentPage}
+        limit={PAGE_LIMIT}
         setPage={setCurrentPage}
       />
     </div>

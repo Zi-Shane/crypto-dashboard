@@ -1,22 +1,27 @@
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import styles from './styles.module.css';
 import { Dispatch, SetStateAction } from 'react';
+import { PaginationDots, PaginationItem } from './paginationItem';
 
 type PaginationProps = {
   totalRows: number;
   currentPage: number;
+  limit: number;
   setPage: Dispatch<SetStateAction<number>>;
 };
 
 export function Pagination({
   totalRows,
   currentPage,
+  limit,
   setPage,
 }: PaginationProps) {
   const end =
-    totalRows % 10 == 0 ? totalRows / 10 : Math.floor(totalRows / 10) + 1;
+    totalRows % limit == 0
+      ? totalRows / limit
+      : Math.floor(totalRows / limit) + 1;
 
-  function controlAngle(add: number) {
+  function handleAngleClick(add: number) {
     setPage(prev => {
       const newN = prev + add;
       if (newN <= end && newN > 0) {
@@ -26,7 +31,7 @@ export function Pagination({
     });
   }
 
-  function generatePageN() {
+  function generatePageItems() {
     const divs = [];
     let value: string[] = Array(7).fill('');
     let tmp: number[] = Array(7).fill(0);
@@ -72,30 +77,24 @@ export function Pagination({
         continue;
       }
       if (i == 1 && parseInt(value[1]) - 1 > start) {
-        divs.push(<div key={'fdot'}>...</div>);
+        divs.push(<PaginationDots key="fdot" />);
       }
       divs.push(
-        <div
-          key={value[i]}
-          className={
-            currentPage == parseInt(value[i])
-              ? `${styles.link} ${styles.active}`
-              : styles.link
-          }
-          onClick={() => setPage(parseInt(value[i]))}
-        >
-          {value[i]}
-        </div>,
+        <PaginationItem
+          currentPage={currentPage}
+          value={parseInt(value[i])}
+          handlePageChange={() => setPage(parseInt(value[i]))}
+        />,
       );
       if (i == 5 && parseInt(value[5]) + 1 < end) {
-        divs.push(<div key={'edot'}>...</div>);
+        divs.push(<PaginationDots key="edot" />);
       }
     }
 
     return <div className={styles.links}>{divs}</div>;
   }
 
-  const generatedDivs = generatePageN();
+  const generatedItems = generatePageItems();
 
   return (
     <div className={styles.container}>
@@ -105,16 +104,16 @@ export function Pagination({
             ? `${styles.button} ${styles.disabled}`
             : styles.button
         }
-        onClick={() => controlAngle(-1)}
+        onClick={() => handleAngleClick(-1)}
       />
-      {generatedDivs}
+      {generatedItems}
       <FaAngleRight
         className={
           currentPage == end
             ? `${styles.button} ${styles.disabled}`
             : styles.button
         }
-        onClick={() => controlAngle(1)}
+        onClick={() => handleAngleClick(1)}
       />
     </div>
   );

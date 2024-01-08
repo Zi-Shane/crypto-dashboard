@@ -42,3 +42,5 @@ export const CoinQuotes = [
   'VAI',
   'AEUR',
 ];
+
+export const PAGE_LIMIT = 10;
