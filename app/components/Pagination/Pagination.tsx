@@ -1,34 +1,23 @@
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import styles from './styles.module.css';
-import { Dispatch, SetStateAction } from 'react';
-import { PaginationDots, PaginationItem } from './paginationItem';
+import { PaginationDots, PaginationItem } from '.';
 
 type PaginationProps = {
-  totalRows: number;
+  pageCount: number;
   currentPage: number;
-  limit: number;
-  setPage: Dispatch<SetStateAction<number>>;
+  onPageChange: (p: number) => void;
 };
 
 export function Pagination({
-  totalRows,
+  pageCount,
   currentPage,
-  limit,
-  setPage,
+  onPageChange,
 }: PaginationProps) {
-  const end =
-    totalRows % limit == 0
-      ? totalRows / limit
-      : Math.floor(totalRows / limit) + 1;
-
   function handleAngleClick(add: number) {
-    setPage(prev => {
-      const newN = prev + add;
-      if (newN <= end && newN > 0) {
-        return newN;
-      }
-      return prev;
-    });
+    const newN = currentPage + add;
+    if (newN <= pageCount && newN > 0) {
+      return onPageChange(newN);
+    }
   }
 
   function generatePageItems() {
@@ -44,7 +33,7 @@ export function Pagination({
     tmp[5] = currentPage + 2;
     // tmp[6] = end;
     for (let i = 1; i <= 5; i++) {
-      if (tmp[i] < start || tmp[i] > end) {
+      if (tmp[i] < start || tmp[i] > pageCount) {
         value[i] = '';
       } else {
         value[i] = tmp[i] + '';
@@ -61,11 +50,11 @@ export function Pagination({
     }
 
     if (value[5] != '') {
-      if (tmp[5] == end) {
+      if (tmp[5] == pageCount) {
         value[6] = '';
       }
-      if (tmp[5] < end) {
-        value[6] = end.toString();
+      if (tmp[5] < pageCount) {
+        value[6] = pageCount.toString();
       }
     }
 
@@ -77,17 +66,18 @@ export function Pagination({
         continue;
       }
       if (i == 1 && parseInt(value[1]) - 1 > start) {
-        divs.push(<PaginationDots key="fdot" />);
+        divs.push(<PaginationDots />);
       }
       divs.push(
         <PaginationItem
+          key={value[i]}
           currentPage={currentPage}
           value={parseInt(value[i])}
-          handlePageChange={() => setPage(parseInt(value[i]))}
+          handlePageChange={() => onPageChange(parseInt(value[i]))}
         />,
       );
-      if (i == 5 && parseInt(value[5]) + 1 < end) {
-        divs.push(<PaginationDots key="edot" />);
+      if (i == 5 && parseInt(value[5]) + 1 < pageCount) {
+        divs.push(<PaginationDots />);
       }
     }
 
@@ -109,7 +99,7 @@ export function Pagination({
       {generatedItems}
       <FaAngleRight
         className={
-          currentPage == end
+          currentPage == pageCount
             ? `${styles.button} ${styles.disabled}`
             : styles.button
         }

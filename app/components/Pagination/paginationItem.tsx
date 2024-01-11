@@ -6,10 +6,6 @@ type PaginationItemProps = {
   handlePageChange: () => void;
 };
 
-type PaginationDotsProps = {
-  key: string;
-};
-
 export function PaginationItem({
   currentPage,
   value,
@@ -30,6 +26,6 @@ export function PaginationItem({
   );
 }
 
-export function PaginationDots({ key }: PaginationDotsProps) {
-  return <div key={key}>...</div>;
+export function PaginationDots() {
+  return <div>...</div>;
 }

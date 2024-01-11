@@ -31,7 +31,7 @@ type SocketRespData = {
 
 type SortAttr = { column: columnName; desc: boolean };
 
-type QuoteAttr = {
-  group: QuoteGroup;
+type QuoteType = {
+  group: string;
   name: string;
 };

@@ -1,66 +1,78 @@
 import { useProducts } from 'hooks';
 import { TableData, FilterLabels, Pagination } from 'components';
 import {
-  CoinQuotes,
-  QuoteGroup,
-  ColumnName,
+  QUOTE_GROUPS,
+  COLUMNS,
   PAGE_LIMIT,
+  COIN_QUOTES,
 } from '@/constants';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 export function ProductTable() {
-  const [quote, setQuote] = useState({
-    group: QuoteGroup.coin,
-    name: CoinQuotes[0],
+  const [quote, setQuote] = useState<QuoteType>({
+    group: QUOTE_GROUPS.COIN,
+    name: Object.values(COIN_QUOTES)[0],
   });
   const [sortAttr, setSortAttr] = useState<SortAttr>({
-    column: ColumnName.volumn,
+    column: COLUMNS.VOLUMN,
     desc: true,
   });
   const [currentPage, setCurrentPage] = useState(1);
-  const { selectedProduct, totalRows } = useProducts(
+  const { selectedProducts } = useProducts(
     quote.name,
     sortAttr,
     currentPage,
   );
   const resetRef = useRef<HTMLDivElement>(null);
+  const pageCount = Math.ceil(selectedProducts.size / PAGE_LIMIT);
 
-  useEffect(() => setCurrentPage(1), [quote]);
-  useEffect(() => scrollToElement(), [currentPage]);
-
-  function scrollToElement() {
-    // Get a reference to the target element
-    // var targetElement = document.getElementById('targetElement');
-
-    // Scroll to the target element
-    if (resetRef.current) resetRef.current.scrollIntoView();
+  function handleQuoteChange(newGroup: string, newName: string) {
+    setQuote({ group: newGroup, name: newName });
+    setCurrentPage(1);
   }
 
-  function handleSort(orderBy: ColumnName) {
+  function getPage(products: Map<string, Product24hrTick>, page: number) {
+    const start = (page - 1) * 10;
+    const end = start + 10;
+    const tmp = Array.from(products).slice(start, end);
+    return new Map(tmp);
+  }
+  const products = getPage(selectedProducts, currentPage);
+
+  function handleSort(orderBy: string) {
     let newDesc = true;
     if (orderBy == sortAttr.column) {
       newDesc = !sortAttr.desc;
     }
     setSortAttr({ column: orderBy, desc: newDesc });
+    setCurrentPage(1);
+  }
+
+  function scrollToElement() {
+    if (resetRef.current) resetRef.current.scrollIntoView();
+  }
+
+  function handlePageChange(p: number) {
+    setCurrentPage(p);
+    scrollToElement();
   }
 
   return (
     <div>
       <FilterLabels
         quote={quote}
-        setQuote={setQuote}
+        onQuoteChange={handleQuoteChange}
         resetRef={resetRef}
       />
       <TableData
-        products={selectedProduct}
-        handleSort={handleSort}
+        products={products}
+        onSort={handleSort}
         sortAttr={sortAttr}
       />
       <Pagination
-        totalRows={totalRows}
+        pageCount={pageCount}
         currentPage={currentPage}
-        limit={PAGE_LIMIT}
-        setPage={setCurrentPage}
+        onPageChange={handlePageChange}
       />
     </div>
   );

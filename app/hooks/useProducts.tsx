@@ -4,19 +4,48 @@ import {
   fromTickSocket,
   getRespProduct24hrTick,
 } from 'API';
-import { changedPercentage, sortProductsMap } from '@/utilies';
+import { changedPercentage } from '@/utilies';
 import { useEffect, useState } from 'react';
+import { COLUMNS } from '@/constants';
 
 type RetFetchProducts = {
   quoteMap: Map<string, string[]>;
-  selectedProduct: Map<string, Product24hrTick>;
-  totalRows: number;
+  selectedProducts: Map<string, Product24hrTick>;
 };
+
+function sortProductsMap(
+  orderBy: string,
+  newDesc: boolean,
+  products: Map<string, Product24hrTick>,
+): Map<string, Product24hrTick> {
+  return new Map(
+    Array.from(products).sort((a, b) => {
+      switch (orderBy) {
+        case COLUMNS.SYMBOL:
+          if (newDesc) return b[1].s > a[1].s ? 1 : -1;
+          else return b[1].s > a[1].s ? -1 : 1;
+          break;
+        case COLUMNS.LAST_PRICE:
+          if (newDesc) return b[1].c - a[1].c;
+          else return a[1].c - b[1].c;
+          break;
+        case COLUMNS.PERCENTAGE:
+          if (newDesc) return b[1].p - a[1].p;
+          else return a[1].p - b[1].p;
+          break;
+        case COLUMNS.VOLUMN:
+        default:
+          if (newDesc) return b[1].qv - a[1].qv;
+          else return a[1].qv - b[1].qv;
+          break;
+      }
+    }),
+  );
+}
 
 export function useProducts(
   quote: string,
   sortAttr: SortAttr,
-  currentPage: number,
 ): RetFetchProducts {
   const [products, setProducts] = useState(
     new Map<string, Product24hrTick>([]),
@@ -93,22 +122,7 @@ export function useProducts(
     return sortProductsMap(sortAttr.column, sortAttr.desc, ret);
   }
 
-  function pageProducts(
-    filterdProducts: Map<string, Product24hrTick>,
-    currentPage: number,
-  ) {
-    const end = currentPage * 10;
-    const start = end - 10;
-    const tmp = Array.from(filterdProducts).slice(start, end);
-    return new Map(tmp);
-  }
+  let selectedProducts = filterProducts(quoteMap, products);
 
-  console.log('total: ', products.size);
-  let filterdProducts = filterProducts(quoteMap, products);
-  let totalRows = filterdProducts.size;
-  console.log('rows: ', totalRows);
-
-  let selectedProduct = pageProducts(filterdProducts, currentPage);
-
-  return { quoteMap, selectedProduct, totalRows };
+  return { quoteMap, selectedProducts };
 }
