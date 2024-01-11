@@ -4,13 +4,44 @@ import {
   fromTickSocket,
   getRespProduct24hrTick,
 } from 'API';
-import { changedPercentage, sortProductsMap } from '@/utilies';
+import { changedPercentage } from '@/utilies';
 import { useEffect, useState } from 'react';
+import { COLUMNS } from '@/constants';
 
 type RetFetchProducts = {
   quoteMap: Map<string, string[]>;
-  selectedProduct: Map<string, Product24hrTick>;
+  selectedProducts: Map<string, Product24hrTick>;
 };
+
+function sortProductsMap(
+  orderBy: string,
+  newDesc: boolean,
+  products: Map<string, Product24hrTick>,
+): Map<string, Product24hrTick> {
+  return new Map(
+    Array.from(products).sort((a, b) => {
+      switch (orderBy) {
+        case COLUMNS.SYMBOL:
+          if (newDesc) return b[1].s > a[1].s ? 1 : -1;
+          else return b[1].s > a[1].s ? -1 : 1;
+          break;
+        case COLUMNS.LAST_PRICE:
+          if (newDesc) return b[1].c - a[1].c;
+          else return a[1].c - b[1].c;
+          break;
+        case COLUMNS.PERCENTAGE:
+          if (newDesc) return b[1].p - a[1].p;
+          else return a[1].p - b[1].p;
+          break;
+        case COLUMNS.VOLUMN:
+        default:
+          if (newDesc) return b[1].qv - a[1].qv;
+          else return a[1].qv - b[1].qv;
+          break;
+      }
+    }),
+  );
+}
 
 export function useProducts(
   quote: string,
@@ -69,7 +100,10 @@ export function useProducts(
     };
   }, []);
 
-  function filterProducts(): Map<string, Product24hrTick> {
+  function filterProducts(
+    quoteMap: Map<string, string[]>,
+    products: Map<string, Product24hrTick>,
+  ): Map<string, Product24hrTick> {
     if (quote == 'ALL') {
       return sortProductsMap(sortAttr.column, sortAttr.desc, products);
     }
@@ -88,7 +122,7 @@ export function useProducts(
     return sortProductsMap(sortAttr.column, sortAttr.desc, ret);
   }
 
-  const selectedProduct = filterProducts();
+  let selectedProducts = filterProducts(quoteMap, products);
 
-  return { quoteMap, selectedProduct };
+  return { quoteMap, selectedProducts };
 }

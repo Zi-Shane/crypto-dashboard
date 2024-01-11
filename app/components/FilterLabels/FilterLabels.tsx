@@ -1,68 +1,39 @@
-import { CoinQuotes, CurrencyQuotes, QuoteGroup } from '@/constants';
+import { COIN_QUOTES, CURRENCY_QUOTE, QUOTE_GROUPS } from '@/constants';
 import styles from './styles.module.css';
-import { Dispatch, SetStateAction } from 'react';
+import { RefObject } from 'react';
+import { GroupLabels, QuoteLabels } from '.';
+
+type FilterLabelsProps = {
+  quote: QuoteType;
+  onQuoteChange: (group: string, name: string) => void;
+  resetRef: RefObject<HTMLDivElement>;
+};
 
 export function FilterLabels({
   quote,
-  setQuote,
-}: {
-  quote: QuoteAttr;
-  setQuote: Dispatch<SetStateAction<QuoteAttr>>;
-}) {
-  function updateQuoteAttr(group: string, name: string) {
-    setQuote({ group, name });
-  }
-
+  onQuoteChange,
+  resetRef,
+}: FilterLabelsProps) {
   return (
     <>
-      <div className={styles.tags}>
-        <span
-          className={`${styles.tag} ${
-            QuoteGroup.coin == quote.group ? styles.active : ''
-          }`}
-          onClick={() => updateQuoteAttr(QuoteGroup.coin, CoinQuotes[0])}
-        >
-          Coin
-        </span>
-        <span
-          className={`${styles.tag} ${
-            QuoteGroup.currency == quote.group ? styles.active : ''
-          }`}
-          onClick={() =>
-            updateQuoteAttr(QuoteGroup.currency, CurrencyQuotes[0])
-          }
-        >
-          National Currency
-        </span>
+      <div className={styles.tags} ref={resetRef}>
+        <GroupLabels
+          values={Object.values(QUOTE_GROUPS)}
+          highlight={quote.group}
+          onQuoteChange={onQuoteChange}
+        />
       </div>
       <div className={`${styles.tags} ${styles.quoteTags}`}>
-        {quote.group === QuoteGroup.coin
-          ? CoinQuotes.map(v => {
-              return (
-                <span
-                  key={v}
-                  className={`${styles.tag} ${
-                    v == quote.name ? styles.active : ''
-                  }`}
-                  onClick={() => updateQuoteAttr(quote.group, v)}
-                >
-                  {v}
-                </span>
-              );
-            })
-          : CurrencyQuotes.map(v => {
-              return (
-                <span
-                  key={v}
-                  className={`${styles.tag} ${
-                    v == quote.name ? styles.active : ''
-                  }`}
-                  onClick={() => updateQuoteAttr(quote.group, v)}
-                >
-                  {v}
-                </span>
-              );
-            })}
+        <QuoteLabels
+          values={
+            quote.group === QUOTE_GROUPS.COIN
+              ? Object.values(COIN_QUOTES)
+              : Object.values(CURRENCY_QUOTE)
+          }
+          currentGroup={quote.group}
+          highlight={quote.name}
+          onQuoteChange={onQuoteChange}
+        />
       </div>
     </>
   );
