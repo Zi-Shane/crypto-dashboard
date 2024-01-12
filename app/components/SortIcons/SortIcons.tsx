@@ -1,13 +1,12 @@
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 import styles from './styles.module.css';
-import { ColumnName } from '@/constants';
 
 export function SortIcons({
   column,
   handleSort,
   sortAttr,
 }: {
-  column: ColumnName;
+  column: string;
   handleSort: () => void;
   sortAttr: SortAttr;
 }) {
