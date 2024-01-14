@@ -1,4 +1,4 @@
-import { number2unit } from '@/utilies';
+import { number2unit } from '../../utilies';
 import { SortIcons } from 'components';
 import styles from './styles.module.css';
 import { COLUMNS } from '@/constants';
