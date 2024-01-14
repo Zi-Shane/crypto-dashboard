@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "predeploy": "rm -rf ./deploy && cp ./out ./deploy && next build && git add deploy/ && git commit -m \"Deploy Next.js to gh-pages\"",
+    "predeploy": "rm -rf ./deploy && next build && cp ./out ./deploy && next build && git add deploy/ && git commit -m \"Deploy Next.js to gh-pages\"",
     "deploy": "gh-pages -d deploy",
     "build": "next build",
     "start": "next start",
