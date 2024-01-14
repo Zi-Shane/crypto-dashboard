@@ -29,7 +29,6 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "**/utilies",
     "app"
   ],
   "exclude": ["node_modules"]
