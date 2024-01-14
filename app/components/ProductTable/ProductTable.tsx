@@ -1,10 +1,5 @@
 import { useFilter, usePagination, useProducts, useSort } from 'hooks';
-import {
-  TableData,
-  FilterSection,
-  Pagination,
-  SearchBox,
-} from 'components';
+import { TableData, FilterSection, Pagination } from 'components';
 import { useRef } from 'react';
 
 export function ProductTable() {
