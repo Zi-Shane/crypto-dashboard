@@ -6,47 +6,13 @@ import {
 } from 'API';
 import { changedPercentage } from '@/utilies';
 import { useEffect, useState } from 'react';
-import { COLUMNS } from '@/constants';
 
 type RetFetchProducts = {
   quoteMap: Map<string, string[]>;
-  selectedProducts: Map<string, Product24hrTick>;
+  products: Map<string, Product24hrTick>;
 };
 
-function sortProductsMap(
-  orderBy: string,
-  newDesc: boolean,
-  products: Map<string, Product24hrTick>,
-): Map<string, Product24hrTick> {
-  return new Map(
-    Array.from(products).sort((a, b) => {
-      switch (orderBy) {
-        case COLUMNS.SYMBOL:
-          if (newDesc) return b[1].s > a[1].s ? 1 : -1;
-          else return b[1].s > a[1].s ? -1 : 1;
-          break;
-        case COLUMNS.LAST_PRICE:
-          if (newDesc) return b[1].c - a[1].c;
-          else return a[1].c - b[1].c;
-          break;
-        case COLUMNS.PERCENTAGE:
-          if (newDesc) return b[1].p - a[1].p;
-          else return a[1].p - b[1].p;
-          break;
-        case COLUMNS.VOLUMN:
-        default:
-          if (newDesc) return b[1].qv - a[1].qv;
-          else return a[1].qv - b[1].qv;
-          break;
-      }
-    }),
-  );
-}
-
-export function useProducts(
-  quote: string,
-  sortAttr: SortAttr,
-): RetFetchProducts {
+export function useProducts(): RetFetchProducts {
   const [products, setProducts] = useState(
     new Map<string, Product24hrTick>([]),
   );
@@ -100,29 +66,5 @@ export function useProducts(
     };
   }, []);
 
-  function filterProducts(
-    quoteMap: Map<string, string[]>,
-    products: Map<string, Product24hrTick>,
-  ): Map<string, Product24hrTick> {
-    if (quote == 'ALL') {
-      return sortProductsMap(sortAttr.column, sortAttr.desc, products);
-    }
-
-    const baseList = quoteMap.get(quote);
-    let ret = new Map<string, Product24hrTick>([]);
-
-    if (baseList) {
-      for (const base of baseList) {
-        const productName = base + quote;
-        const productInfo = products.get(productName);
-        if (productInfo) ret.set(productName + quote, productInfo);
-      }
-    }
-
-    return sortProductsMap(sortAttr.column, sortAttr.desc, ret);
-  }
-
-  let selectedProducts = filterProducts(quoteMap, products);
-
-  return { quoteMap, selectedProducts };
+  return { quoteMap, products };
 }
