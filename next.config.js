@@ -4,6 +4,11 @@ const nextConfig = {
   typescript: {
     tsconfigPath: './tsconfig.json',
   },
+  webpack: (config, { isServer }) => {
+    console.log(__dirname);
+    config.resolve.alias['@'] = path.join(__dirname, '');
+    return config;
+  },
 };
 
 module.exports = nextConfig;
