@@ -1,3 +1,4 @@
+import { FaSearch } from 'react-icons/fa';
 import styles from './styles.module.css';
 
 type SearchBoxProps = {
@@ -7,8 +8,10 @@ type SearchBoxProps = {
 
 export function SearchBox({ keyword, handleChange }: SearchBoxProps) {
   return (
-    <div>
+    <div className={styles.container}>
+      <FaSearch />
       <input
+        className={styles.inputBox}
         type="text"
         onChange={e => handleChange(e.target.value)}
         value={keyword}

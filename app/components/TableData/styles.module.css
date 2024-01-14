@@ -31,11 +31,11 @@
 }
 
 .ups {
-  color: green;
+  color: #03a66d;
 }
 
 .downs {
-  color: red;
+  color: #e33b54;
 }
 
 .tableSymbolCell {

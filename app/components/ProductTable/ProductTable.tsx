@@ -1,7 +1,7 @@
 import { useFilter, usePagination, useProducts, useSort } from 'hooks';
 import {
   TableData,
-  FilterLabels,
+  FilterSection,
   Pagination,
   SearchBox,
 } from 'components';
@@ -49,11 +49,12 @@ export function ProductTable() {
 
   return (
     <div>
-      <SearchBox keyword={keyword} handleChange={handleKeywordChange} />
-      <FilterLabels
+      <FilterSection
         quote={quote}
         onQuoteChange={handleQuoteChange}
         resetRef={resetRef}
+        keyword={keyword}
+        handleKeywordChange={handleKeywordChange}
       />
       <TableData
         products={pagedProducts}

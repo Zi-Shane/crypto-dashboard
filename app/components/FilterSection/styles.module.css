@@ -1,3 +1,13 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inputBox {
+}
+
 .tags {
   display: flex;
   flex-wrap: wrap;
@@ -29,9 +39,6 @@
 
 .quoteTags {
   font-size: 0.8em;
-}
-
-.quoteTag {
 }
 
 .quoteTag:hover {
