@@ -6,7 +6,7 @@ const nextConfig = {
     tsconfigPath: './tsconfig.json',
   },
   // basePath: 'app',
-  webpack: config => {
+  webpack: (config, { isServer }) => {
     config.resolve.alias = {
       ...config.resolve.alias,
       '@': path.resolve(__dirname, 'app'),
