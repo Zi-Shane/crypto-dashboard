@@ -5,12 +5,8 @@ const nextConfig = {
     tsconfigPath: './tsconfig.json',
   },
   webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.node = {
-        utilies: 'empty',
-      };
-    }
-
+    console.log(__dirname);
+    config.resolve.alias['@'] = path.join(__dirname, 'app');
     return config;
   },
 };
