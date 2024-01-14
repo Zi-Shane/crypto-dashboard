@@ -10,9 +10,9 @@ const nextConfig = {
   assetPrefix: '/crypto-dashboard/',
   // Enable static export
   trailingSlash: true,
-  images: {
-    unoptimized: true,
-  },
+  // images: {
+  //   unoptimized: true,
+  // },
   // basePath: 'app',
   // webpack: (config, { isServer }) => {
   //   config.resolve.alias = {
