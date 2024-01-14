@@ -5,7 +5,7 @@ const nextConfig = {
   typescript: {
     tsconfigPath: './tsconfig.json',
   },
-  baseUrl: 'app',
+  basePath: 'app',
   webpack: config => {
     config.resolve.alias = {
       ...config.resolve.alias,
