@@ -7,7 +7,7 @@ const nextConfig = {
   },
   webpack: (config, { isServer }) => {
     console.log(__dirname);
-    config.resolve.alias['@'] = path.join(__dirname, 'app');
+    config.resolve.alias['@'] = __dirname + 'app';
     return config;
   },
 };
