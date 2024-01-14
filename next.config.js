@@ -11,6 +11,11 @@ const nextConfig = {
       ...config.resolve.alias,
       '@': path.resolve(__dirname, 'app'),
     };
+    if (!isServer) {
+      config.resolve.fallback = {
+        utilies: 'app/utilies',
+      };
+    }
 
     return config;
   },
