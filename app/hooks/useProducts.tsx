@@ -4,7 +4,7 @@ import {
   fromTickSocket,
   getRespProduct24hrTick,
 } from 'API';
-import { changedPercentage } from 'utilies';
+import { changedPercentage } from 'utilties';
 import { useEffect, useState } from 'react';
 
 type RetFetchProducts = {
