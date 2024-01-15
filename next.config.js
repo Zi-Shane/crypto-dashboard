@@ -14,19 +14,19 @@ const nextConfig = {
   //   unoptimized: true,
   // },
   // basePath: 'app',
-  // webpack: (config, { isServer }) => {
-  //   config.resolve.alias = {
-  //     ...config.resolve.alias,
-  //     '@': path.resolve(__dirname, 'app'),
-  //   };
-  //   if (!isServer) {
-  //     config.resolve.fallback = {
-  //       utilies: 'app/utilies',
-  //     };
-  //   }
+  webpack: (config, { isServer }) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(__dirname, 'app'),
+    };
+    // if (!isServer) {
+    //   config.resolve.fallback = {
+    //     utilies: 'app/utilies',
+    //   };
+    // }
 
-  //   return config;
-  // },
+    return config;
+  },
 };
 
 module.exports = nextConfig;
