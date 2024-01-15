@@ -9,6 +9,7 @@ Crypto protucts dashboard can sort and search.
 - Get products from API and update latest data from WebSocket.
 - Filter by quote and keyword
 - Display 10 items each page
+- Support RWD
 
 ## Getting Started
 
@@ -24,3 +25,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ![overview_filter.png](./01.png)
 ![productlist_pagnation.png](./02.png)
+![rwd.png](./03.png)

@@ -45,3 +45,26 @@
 .symbolBase {
   font-weight: 600;
 }
+
+@media only screen and (max-width: 1024px) {
+  .changed,
+  .volumn {
+    display: none;
+  }
+
+  .ups {
+    background-color: #04d48b;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 0.5em 0;
+  }
+
+  .downs {
+    background-color: #e33b54;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 0.5em 0;
+  }
+}

@@ -3,6 +3,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  overflow-x: auto;
 }
 
 .inputBox {
@@ -10,7 +11,7 @@
 
 .tags {
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   row-gap: 0.2em;
   margin: 1em 0;
   padding: 0.5em 0;
@@ -48,4 +49,7 @@
 
 .divider {
   color: #777;
+}
+
+@media only screen and (max-width: 1024px) {
 }

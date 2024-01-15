@@ -30,17 +30,17 @@ export function TableData({ products, onSort, sortAttr }: TableDataProps) {
           />
         </div>
         <div className={styles.tableCell}>
-          <span>24hr&nbsp;Price&nbsp;Change&nbsp;Percent</span>
+          <span>24hr&nbsp;Change&nbsp;</span>
           <SortIcons
             column={COLUMNS.PERCENTAGE}
             handleSort={() => onSort(COLUMNS.PERCENTAGE)}
             sortAttr={sortAttr}
           />
         </div>
-        <div className={styles.tableCell}>
+        <div className={`${styles.tableCell} ${styles.changed}`}>
           <span>24hr&nbsp;High&nbsp;/&nbsp;Low</span>
         </div>
-        <div className={styles.tableCell}>
+        <div className={`${styles.tableCell} ${styles.volumn}`}>
           <span>Volume</span>
           <SortIcons
             column={COLUMNS.VOLUMN}
@@ -61,18 +61,18 @@ export function TableData({ products, onSort, sortAttr }: TableDataProps) {
             <div className={styles.tableCell}>
               {Number(value.c).toFixed(2)}
             </div>
-            <div
-              className={`${styles.tableCell} ${
-                value.p >= 0 ? styles.ups : styles.downs
-              }`}
-            >
-              {(value.p * 100).toFixed(2)}%
+            <div className={`${styles.tableCell} `}>
+              <div
+                className={`${value.p >= 0 ? styles.ups : styles.downs}`}
+              >
+                {(value.p * 100).toFixed(2)}%
+              </div>
             </div>
-            <div className={styles.tableCell}>
+            <div className={`${styles.tableCell} ${styles.changed}`}>
               {Number(value.h).toFixed(2)}&nbsp;/&nbsp;
               {Number(value.l).toFixed(2)}
             </div>
-            <div className={styles.tableCell}>
+            <div className={`${styles.tableCell} ${styles.volumn}`}>
               {number2unit(value.qv, 2)}
             </div>
           </div>
