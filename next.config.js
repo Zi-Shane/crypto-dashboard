@@ -7,7 +7,7 @@ const nextConfig = {
   },
   // Use the prefix for GitHub Pages
   basePath: '/crypto-dashboard',
-  assetPrefix: '/crypto-dashboard/',
+  assetPrefix: '/crypto-dashboard',
   // Enable static export
   trailingSlash: true,
   // images: {
