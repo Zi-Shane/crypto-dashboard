@@ -2,6 +2,8 @@
 
 [Demo](https://zi-shane.github.io/crypto-dashboard/)
 
+**Note: There is reload issue on github page. Running at local server will be normal.**
+
 Crypto protucts dashboard can sort and search.
 
 ## Features
@@ -10,6 +12,7 @@ Crypto protucts dashboard can sort and search.
 - Filter by quote and keyword
 - Display 10 items each page
 - Support RWD
+- Update query parameters when selecting filter tag.
 
 ## Getting Started
 
