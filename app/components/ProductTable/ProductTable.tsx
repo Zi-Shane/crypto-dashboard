@@ -24,7 +24,7 @@ export function ProductTable() {
     current.set('name', newName);
     const search = current.toString();
     const query = search ? `?${search}` : '';
-    router.push(`${pathname}${query}`);
+    router.replace(`${pathname}${query}`, { scroll: false });
 
     updateQuote({ group: newGroup, name: newName });
     updatePage(1);
