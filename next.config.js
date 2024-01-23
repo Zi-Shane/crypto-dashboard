@@ -6,8 +6,8 @@ const nextConfig = {
     tsconfigPath: './tsconfig.json',
   },
   // Use the prefix for GitHub Pages
-  // basePath: '/crypto-dashboard',
-  // assetPrefix: '/crypto-dashboard',
+  basePath: '/crypto-dashboard',
+  assetPrefix: '/crypto-dashboard',
   // Enable static export
   // trailingSlash: true,
   // images: {
