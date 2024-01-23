@@ -1,4 +1,5 @@
 import { COIN_QUOTES, QUOTE_GROUPS } from '@/constants';
+import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
 type useFilterProps = {
@@ -18,9 +19,19 @@ export function useFilter({
   products,
   quoteMap,
 }: useFilterProps): useFilterRet {
-  const [quote, setQuote] = useState<QuoteType>({
-    group: QUOTE_GROUPS.COIN,
-    name: Object.values(COIN_QUOTES)[0],
+  const searchParams = useSearchParams();
+
+  const [quote, setQuote] = useState<QuoteType>(() => {
+    if (searchParams.has('group') && searchParams.has('name')) {
+      return {
+        group: searchParams.get('group') || '',
+        name: searchParams.get('name') || '',
+      };
+    }
+    return {
+      group: QUOTE_GROUPS.COIN,
+      name: Object.values(COIN_QUOTES)[0],
+    };
   });
   const [keyword, setKeyword] = useState('');
 

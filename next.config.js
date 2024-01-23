@@ -6,21 +6,21 @@ const nextConfig = {
     tsconfigPath: './tsconfig.json',
   },
   // Use the prefix for GitHub Pages
-  basePath: '/crypto-dashboard',
-  assetPrefix: '/crypto-dashboard',
+  // basePath: '/crypto-dashboard',
+  // assetPrefix: '/crypto-dashboard',
   // Enable static export
-  trailingSlash: true,
-  images: {
-    unoptimized: true,
-  },
-  webpack: (config, { isServer }) => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@': path.resolve(__dirname, 'app'),
-    };
+  // trailingSlash: true,
+  // images: {
+  //   unoptimized: true,
+  // },
+  // webpack: (config, { isServer }) => {
+  //   config.resolve.alias = {
+  //     ...config.resolve.alias,
+  //     '@': path.resolve(__dirname, 'app'),
+  //   };
 
-    return config;
-  },
+  //   return config;
+  // },
 };
 
 module.exports = nextConfig;

@@ -6,9 +6,6 @@
   overflow-x: auto;
 }
 
-.inputBox {
-}
-
 .tags {
   display: flex;
   /* flex-wrap: wrap; */
