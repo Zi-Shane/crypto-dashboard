@@ -1,5 +1,10 @@
 import { useFilter, usePagination, useProducts, useSort } from 'hooks';
-import { TableData, FilterSection, Pagination } from 'components';
+import {
+  TableData,
+  FilterSection,
+  Pagination,
+  TableGridVer,
+} from 'components';
 import { useRef } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
@@ -62,7 +67,12 @@ export function ProductTable() {
         keyword={keyword}
         handleKeywordChange={handleKeywordChange}
       />
-      <TableData
+      {/* <TableData
+        products={pagedProducts}
+        onSort={handleSort}
+        sortAttr={sortAttr}
+      /> */}
+      <TableGridVer
         products={pagedProducts}
         onSort={handleSort}
         sortAttr={sortAttr}
