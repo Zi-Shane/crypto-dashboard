@@ -62,27 +62,23 @@
     align-items: center;
   }
 
-  .item:has(.ups) {
+  .item:has(.mobilePercent) {
     padding: 5px;
   }
 
-  .ups {
+  .mobilePercent {
     display: inline-block;
     width: 6em;
-    background-color: #04d48b;
     color: #fff;
     text-align: center;
     line-height: 30px;
     border-radius: 8px;
   }
+  .ups {
+    background-color: #04d48b;
+  }
 
   .downs {
-    display: inline-block;
-    width: 6em;
     background-color: #e33b54;
-    color: #fff;
-    text-align: center;
-    line-height: 30px;
-    border-radius: 8px;
   }
 }

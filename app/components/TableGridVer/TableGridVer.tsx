@@ -76,7 +76,9 @@ export function TableGridVer({
             </div>
             <div className={`${styles.item} ${styles.alignRight}`}>
               <span
-                className={`${value.p >= 0 ? styles.ups : styles.downs}`}
+                className={`${styles.mobilePercent} ${
+                  value.p >= 0 ? styles.ups : styles.downs
+                }`}
               >
                 {(value.p * 100).toFixed(2)}%
               </span>
