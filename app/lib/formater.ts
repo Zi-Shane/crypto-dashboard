@@ -11,3 +11,7 @@ export function number2unit(n: number, fixed: number = 2): string {
 
   return unitNumber;
 }
+
+export function formatPercentage(rowNumber: number) {
+  return (rowNumber * 100).toFixed(2);
+}

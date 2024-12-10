@@ -1,11 +1,11 @@
 export const PAGE_LIMIT = 10;
 
-export const COLUMNS = {
-  SYMBOL: 'symbol',
-  LAST_PRICE: 'lastPrice',
-  PERCENTAGE: 'percentage',
-  VOLUMN: 'volumn',
-};
+// export const COLUMNS = {
+//   SYMBOL: 'symbol',
+//   LAST_PRICE: 'lastPrice',
+//   PERCENTAGE: 'percentage',
+//   VOLUMN: 'volumn',
+// };
 
 export const QUOTE_GROUPS = {
   COIN: 'coin',
