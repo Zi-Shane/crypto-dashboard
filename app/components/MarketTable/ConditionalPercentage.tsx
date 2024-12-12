@@ -12,7 +12,6 @@ const ConditionalPercentage = ({
   value,
   mobileClassName,
   desktopClassName,
-  ...props
 }: ConditionalPercentageProps) => {
   return (
     <>
@@ -27,7 +26,7 @@ const ConditionalPercentage = ({
       </div>
       <div
         className={cn(
-          'hidden text-inherit md:block',
+          'hidden font-bold text-inherit md:block',
           value > 0 ? 'text-tablecell-buy' : 'text-tablecell-sell',
           desktopClassName,
         )}

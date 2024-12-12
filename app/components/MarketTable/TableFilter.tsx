@@ -6,9 +6,17 @@ import {
 } from '@/components/ui/toggle-group';
 import { cn } from '@/lib/utils';
 
-interface TableFilterProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface TableFilterProps extends React.HTMLAttributes<HTMLDivElement> {
+  changeTag: (tag: string) => void;
+  defaultValue: string;
+}
 
-const TableFilter = ({ className, ...props }: TableFilterProps) => {
+const TableFilter = ({
+  changeTag,
+  defaultValue,
+  className,
+  ...props
+}: TableFilterProps) => {
   return (
     <div
       className={cn(
@@ -17,15 +25,16 @@ const TableFilter = ({ className, ...props }: TableFilterProps) => {
       )}
       {...props}
     >
-      <ToggleGroup type="single" defaultValue={FiltersL1[0]}>
-        {FiltersL1.map(filter => (
+      <ToggleGroup type="single" defaultValue={defaultValue}>
+        {FiltersL1.map(({ tag, value }) => (
           <ToggleGroupItem
             className="h-fit whitespace-nowrap"
-            key={`filter-${filter}`}
-            value={filter}
+            key={`filter-${tag}`}
+            value={value}
             aria-label="Toggle"
+            onClick={() => changeTag(tag)}
           >
-            {filter}
+            {value}
           </ToggleGroupItem>
         ))}
       </ToggleGroup>

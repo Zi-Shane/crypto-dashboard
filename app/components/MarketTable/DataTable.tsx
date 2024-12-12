@@ -11,6 +11,7 @@ import {
   ColumnFiltersState,
   getFilteredRowModel,
   PaginationState,
+  VisibilityState,
 } from '@tanstack/react-table';
 
 import {
@@ -26,21 +27,23 @@ import { useEffect, useState } from 'react';
 import MarketListPagination from './MarketListPagination';
 import SearchBox from '../MarketGroup/SearchBox';
 import { useRouter, useSearchParams } from 'next/navigation';
-import TableFilter from '../TableFilter';
-import { FiltersL1 } from '@/data/filters';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  skipPageResetRef: React.MutableRefObject<boolean | undefined>;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  skipPageResetRef,
 }: DataTableProps<TData, TValue>) {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: 'volumn', desc: true },
+  ]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     [],
   );
@@ -48,6 +51,14 @@ export function DataTable<TData, TValue>({
     pageIndex: 0,
     pageSize: 20,
   });
+  const [columnVisibility, setColumnVisibility] =
+    useState<VisibilityState>({
+      symbol: true,
+      current: true,
+      percentage: true,
+      high_low: true,
+      volumn: true,
+    });
 
   // useEffect(() => {
   //   router.push(`?page=${table.getState().pagination.pageIndex + 1}`, {
@@ -62,6 +73,11 @@ export function DataTable<TData, TValue>({
     }
   }, []);
 
+  useEffect(() => {
+    // Reset the flag after the table has updated
+    skipPageResetRef.current = false;
+  });
+
   const table = useReactTable({
     data,
     columns,
@@ -72,10 +88,14 @@ export function DataTable<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onPaginationChange: setPagination,
+    onColumnVisibilityChange: setColumnVisibility,
+    autoResetPageIndex: !skipPageResetRef.current,
+    autoResetExpanded: !skipPageResetRef.current,
     state: {
       sorting,
       columnFilters,
       pagination,
+      columnVisibility,
     },
   });
 
@@ -101,7 +121,6 @@ export function DataTable<TData, TValue>({
           table.getColumn('symbol')?.setFilterValue(event.target.value)
         }
       />
-      <TableFilter className="my-4 px-3" />
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map(headerGroup => (
@@ -159,6 +178,7 @@ export function DataTable<TData, TValue>({
         hasNextPg={table.getCanNextPage()}
         currPg={table.getState().pagination.pageIndex + 1}
         lastPg={table.getPageCount()}
+        goPage={n => table.setPageIndex(n)}
       />
     </>
   );

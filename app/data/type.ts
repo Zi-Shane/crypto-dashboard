@@ -5,10 +5,14 @@ export type ProductInfo = {
   quoteName: string;
   current: string;
   open: string;
+  high: string;
+  low: string;
+  high_low: string;
   percentage: number;
   volumn: string;
   tags: string[];
 };
+
 //       "s": "BNBBTC",
 //       "b": "BNB",
 //       "q": "BTC",

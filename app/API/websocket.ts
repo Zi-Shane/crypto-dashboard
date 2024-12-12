@@ -1,5 +1,7 @@
-let ws = new WebSocket('wss://stream.binance.com/stream');
-const apiCall = {
+const ws = new WebSocket('wss://stream.binance.com/stream');
+export const DefaultTick = '!miniTicker@arr@3000ms';
+
+const subscribeMsg = {
   id: 1,
   method: 'SUBSCRIBE',
   params: ['!miniTicker@arr@3000ms'],
@@ -7,7 +9,7 @@ const apiCall = {
 
 export function connectTickSocket() {
   ws.onopen = () => {
-    ws.send(JSON.stringify(apiCall));
+    ws.send(JSON.stringify(subscribeMsg));
     console.log('open connection');
   };
 }
@@ -18,27 +20,53 @@ export function closeTickSocket() {
   };
 }
 
-export function fromTickSocket(fn: Function) {
+export function handleSocketMessage(
+  type: StreamType,
+  updater: (socketMsg: TickerData[]) => void,
+) {
   ws.onmessage = event => {
-    let socketData: SocketRespData = JSON.parse(event.data);
-    if (socketData.stream === '!miniTicker@arr@3000ms') {
-      fn(socketData.data);
+    let message: SocketRespData = JSON.parse(event.data);
+    // Check if message is relevant
+    if (message.stream === type) {
+      updater(message.data);
     }
   };
 }
 
-// Socket Example:
-/*
-stream: "!miniTicker@arr@3000ms" | "!ticker_1h@arr@3000ms" | "!ticker_4h@arr@3000ms"
-data: [{
-  E: 1703223930497   //id?
-  c: "0.00624400"    //current
-  e: "24hrMiniTicker"
-  h: "0.00630200"    //height
-  l: "0.00590200"    //low
-  o: "0.00590300"    //open
-  q: "435.66528229"  //volumn
-  s: "BNBBTC"
-  v: "70728.86100000"  //?
-},...]
-*/
+export type StreamType =
+  | '!miniTicker@arr@3000ms'
+  | '!ticker_1h@arr@3000ms'
+  | '!ticker_4h@arr@3000ms';
+
+// Type definition for ticker data
+export type TickerData = {
+  e: string;
+  E: number;
+  s: string;
+  p: string;
+  P: string;
+  w: string;
+  x: string;
+  c: string;
+  Q: string;
+  b: string;
+  B: string;
+  a: string;
+  A: string;
+  o: string;
+  h: string;
+  l: string;
+  v: string;
+  q: string;
+  O: number;
+  C: number;
+  F: number;
+  L: number;
+  n: number;
+};
+
+// Type definition for the full response
+export type SocketRespData = {
+  stream: StreamType;
+  data: TickerData[];
+};

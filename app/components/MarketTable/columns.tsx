@@ -1,11 +1,11 @@
 'use client';
 
 import { ProductInfo } from '@/data/type';
-import { ColumnDef } from '@tanstack/react-table';
-import HeaderWithSort from './HeaderWithSort';
 import { COLUMNS } from '@/data/table';
-import ConditionalPercentage from './ConditionalPercentage';
 import { number2unit } from '@/lib/formater';
+import HeaderWithSort from './HeaderWithSort';
+import ConditionalPercentage from './ConditionalPercentage';
+import { ColumnDef } from '@tanstack/react-table';
 
 export const columns: ColumnDef<ProductInfo>[] = [
   {
@@ -41,9 +41,14 @@ export const columns: ColumnDef<ProductInfo>[] = [
       );
     },
     cell: ({ row }) => {
-      return <div className="text-right">${row.getValue('current')}</div>;
+      return (
+        <div className="text-right">
+          ${Number(row.getValue('current')).toFixed(2)}
+        </div>
+      );
     },
   },
+
   {
     accessorKey: 'percentage',
     header: ({ column }) => {
@@ -62,6 +67,23 @@ export const columns: ColumnDef<ProductInfo>[] = [
       return (
         <div className="text-center md:w-auto md:text-right">
           <ConditionalPercentage value={row.getValue('percentage')} />
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: 'high_low',
+    header: ({ column }) => {
+      return (
+        <div className="hidden min-w-[150px] text-right md:block">
+          <span>{COLUMNS.HIGH_LOW}</span>
+        </div>
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="hidden min-w-[150px] text-right md:block">
+          {row.getValue(COLUMNS.HIGH_LOW)}
         </div>
       );
     },

@@ -15,3 +15,11 @@ export function number2unit(n: number, fixed: number = 2): string {
 export function formatPercentage(rowNumber: number) {
   return (rowNumber * 100).toFixed(2);
 }
+
+export function calPercentage(open: number, current: number): number {
+  return (current - open) / open;
+}
+
+export function stringifyHighLow(low: string, high: string): string {
+  return `${Number(low).toFixed(2)} / ${Number(high).toFixed(2)}`;
+}

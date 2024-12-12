@@ -17,6 +17,7 @@ interface MarketListPaginationProps
   hasNextPg: boolean;
   currPg: number;
   lastPg: number;
+  goPage: (n: number) => void;
 }
 
 const MarketListPagination = ({
@@ -26,6 +27,7 @@ const MarketListPagination = ({
   hasNextPg,
   currPg,
   lastPg,
+  goPage,
   ...props
 }: MarketListPaginationProps) => {
   const wSize = 5;
@@ -39,7 +41,7 @@ const MarketListPagination = ({
     cur: number,
     last: number,
     wSize: number,
-  ): Number[] => {
+  ): number[] => {
     const s = 1 + Math.floor(wSize / 2),
       e = last - Math.floor(wSize / 2) - 1;
     const w = [...Array(5).keys()].map(k => k + 1);
@@ -88,7 +90,10 @@ const MarketListPagination = ({
             );
           }
           return (
-            <PaginationItem key={`page-${k}`}>
+            <PaginationItem
+              key={`page-${k}`}
+              onClick={() => goPage(v - 1)}
+            >
               <PaginationLink isActive={currPg === v}>
                 {v.toString()}
               </PaginationLink>

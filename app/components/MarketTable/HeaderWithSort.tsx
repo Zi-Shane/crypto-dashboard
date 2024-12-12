@@ -1,9 +1,8 @@
-import { SortStatus } from '@/data/table';
 import { SortDirection } from '@tanstack/react-table';
 import React from 'react';
 
 interface HeaderWithSortProps
-  extends React.HTMLAttributes<HTMLSpanElement> {
+  extends React.HTMLAttributes<HTMLDivElement> {
   name: string;
   sortStatus: false | SortDirection;
   onSort: () => void;
@@ -13,12 +12,10 @@ const HeaderWithSort = ({
   name,
   sortStatus,
   onSort,
-  className,
-
   ...props
 }: HeaderWithSortProps) => {
   return (
-    <div className={className}>
+    <div {...props}>
       <span>
         {name}
         <img

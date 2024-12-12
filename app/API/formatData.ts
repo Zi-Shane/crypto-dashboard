@@ -4,6 +4,7 @@ import {
   Product24hrTick,
   RespProduct24hrTick,
 } from './fetchData';
+import { calPercentage, stringifyHighLow } from '@/lib/formater';
 
 export async function getProductsInfo() {
   const resp: RespProduct24hrTick = await getRespProduct24hrTick();
@@ -18,19 +19,14 @@ export async function getProductsInfo() {
         quoteName: item.qn,
         current: item.c,
         open: item.o,
+        high: item.h,
+        low: item.l,
+        high_low: stringifyHighLow(item.l, item.h),
         percentage: calPercentage(Number(item.o), Number(item.c)),
         volumn: item.qv,
         tags: item.tags,
       };
     });
+  prodctsInfo.sort((a, b) => parseFloat(b.volumn) - parseFloat(a.volumn));
   return prodctsInfo;
-}
-
-// async function sortProducts() {
-//   let products: ProductsInfo[] = await getProductsInfo();
-//   products.sort((a, b) => b.qv - a.qv);
-// }
-
-export function calPercentage(open: number, current: number): number {
-  return (current - open) / open;
 }
