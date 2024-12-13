@@ -45,7 +45,6 @@ const MarketTable = ({ data: initialData }: MarketTableProps) => {
           low: item.low,
           high_low: item.high_low,
           percentage: item.percentage,
-          volumn: item.volumn,
         });
       }
     });
@@ -79,8 +78,6 @@ const MarketTable = ({ data: initialData }: MarketTableProps) => {
         marketData={marketData}
         skipPageResetRef={skipPageResetRef}
       />
-      {/* <DataTable columns={columns} data={marketData} /> */}
-      {/* <MarketList products={products} /> */}
     </div>
   );
 };

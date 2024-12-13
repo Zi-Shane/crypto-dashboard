@@ -60,14 +60,8 @@ export function DataTable<TData, TValue>({
       volumn: true,
     });
 
-  // useEffect(() => {
-  //   router.push(`?page=${table.getState().pagination.pageIndex + 1}`, {
-  //     scroll: false,
-  //   });
-  // }, [pagination]);
-
   useEffect(() => {
-    const page = parseInt(searchParams.get('page') as string, 10);
+    const page = parseInt(searchParams.get('p') as string, 10);
     if (!isNaN(page)) {
       table.setPageIndex(page - 1);
     }

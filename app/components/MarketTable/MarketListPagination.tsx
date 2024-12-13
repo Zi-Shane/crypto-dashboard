@@ -79,6 +79,7 @@ const MarketListPagination = ({
             className={cn(
               !hasPrevPg ? 'pointer-events-none opacity-50' : '',
             )}
+            href={{ query: { p: currPg - 1 } }}
           />
         </PaginationItem>
         {paginationItems.map((v, k) => {
@@ -94,7 +95,11 @@ const MarketListPagination = ({
               key={`page-${k}`}
               onClick={() => goPage(v - 1)}
             >
-              <PaginationLink isActive={currPg === v}>
+              <PaginationLink
+                size="sm"
+                isActive={currPg === v}
+                href={{ query: { p: v } }}
+              >
                 {v.toString()}
               </PaginationLink>
             </PaginationItem>
@@ -105,6 +110,7 @@ const MarketListPagination = ({
             className={cn(
               !hasNextPg ? 'pointer-events-none opacity-50' : '',
             )}
+            href={{ query: { p: currPg + 1 } }}
           />
         </PaginationItem>
       </PaginationContent>
