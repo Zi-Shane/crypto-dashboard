@@ -78,6 +78,7 @@ const MarketListPagination = ({
           <PaginationPrevious
             className={cn(
               !hasPrevPg ? 'pointer-events-none opacity-50' : '',
+              'px-1',
             )}
             href={{ query: { p: currPg - 1 } }}
           />
@@ -97,6 +98,7 @@ const MarketListPagination = ({
             >
               <PaginationLink
                 size="sm"
+                className="px-2"
                 isActive={currPg === v}
                 href={{ query: { p: v } }}
               >
@@ -109,6 +111,7 @@ const MarketListPagination = ({
           <PaginationNext
             className={cn(
               !hasNextPg ? 'pointer-events-none opacity-50' : '',
+              'px-1',
             )}
             href={{ query: { p: currPg + 1 } }}
           />
