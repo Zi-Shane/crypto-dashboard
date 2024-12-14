@@ -27,7 +27,7 @@ export const columns: ColumnDef<ProductInfo>[] = [
         <div className="min-w-[100px]">
           <img
             className="mr-2 inline-block h-6 w-6"
-            src={`/crypto-icon/${row.original.base}.png`}
+            src={`crypto-icon/${row.original.base}.png`}
             alt={`${row.original.base}`}
           ></img>
           {row.getValue(COLUMNS.BASE)}
