@@ -28,6 +28,7 @@ import MarketListPagination from './MarketListPagination';
 import SearchBox from '../MarketGroup/SearchBox';
 import { useMediaQuery } from 'react-responsive';
 import { COLUMNS } from '@/data/table';
+import { useSearchParams } from 'next/navigation';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -60,7 +61,8 @@ export function DataTable<TData, TValue>({
     });
 
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
-
+  // const searchParams = new URLSearchParams(window.location.search);
+  const searchParams = useSearchParams();
   useEffect(() => {
     if (isMobile) {
       setColumnVisibility(prev => ({
@@ -77,12 +79,12 @@ export function DataTable<TData, TValue>({
     }
   }, [isMobile]);
 
-  // useEffect(() => {
-  //   const page = parseInt(searchParams.get('p') ?? '1', 10);
-  //   if (!isNaN(page)) {
-  //     table.setPageIndex(page - 1);
-  //   }
-  // }, []);
+  useEffect(() => {
+    const page = parseInt(searchParams.get('p') ?? '1', 10);
+    if (!isNaN(page)) {
+      table.setPageIndex(page - 1);
+    }
+  }, []);
 
   useEffect(() => {
     if (table.getState().pagination.pageIndex + 1 > table.getPageCount()) {
