@@ -9,12 +9,12 @@ import { ColumnDef } from '@tanstack/react-table';
 
 export const columns: ColumnDef<ProductInfo>[] = [
   {
-    accessorKey: 'symbol',
+    accessorKey: COLUMNS.BASE,
     header: ({ column }) => {
       return (
         <HeaderWithSort
-          className="w-[100px]"
-          name={COLUMNS.SYMBOL}
+          className="min-w-[100px]"
+          name={COLUMNS.BASE}
           sortStatus={column.getIsSorted()}
           onSort={() =>
             column.toggleSorting(column.getIsSorted() === 'asc')
@@ -23,7 +23,16 @@ export const columns: ColumnDef<ProductInfo>[] = [
       );
     },
     cell: ({ row }) => {
-      return <div className="w-[100px]">{row.getValue('symbol')}</div>;
+      return (
+        <div className="min-w-[100px]">
+          <img
+            className="mr-2 inline-block h-6 w-6"
+            src={`/crypto-icon/${row.original.base}.png`}
+            alt={`${row.original.base}`}
+          ></img>
+          {row.getValue(COLUMNS.BASE)}
+        </div>
+      );
     },
   },
   {
@@ -31,7 +40,7 @@ export const columns: ColumnDef<ProductInfo>[] = [
     header: ({ column }) => {
       return (
         <HeaderWithSort
-          className="text-right"
+          className="min-w-[100px] text-right"
           name={COLUMNS.LAST_PRICE}
           sortStatus={column.getIsSorted()}
           onSort={() =>
@@ -42,8 +51,11 @@ export const columns: ColumnDef<ProductInfo>[] = [
     },
     cell: ({ row }) => {
       return (
-        <div className="text-right">
-          ${Number(row.getValue('current')).toFixed(2)}
+        <div className="min-w-[100px] text-right">
+          $
+          {Number(row.getValue(COLUMNS.LAST_PRICE)) < 1
+            ? parseInt(row.getValue(COLUMNS.LAST_PRICE)).toFixed(8)
+            : parseInt(row.getValue(COLUMNS.LAST_PRICE)).toFixed(2)}
         </div>
       );
     },
@@ -66,7 +78,9 @@ export const columns: ColumnDef<ProductInfo>[] = [
     cell: ({ row }) => {
       return (
         <div className="text-center md:w-auto md:text-right">
-          <ConditionalPercentage value={row.getValue('percentage')} />
+          <ConditionalPercentage
+            value={row.getValue(COLUMNS.PERCENTAGE)}
+          />
         </div>
       );
     },
@@ -105,7 +119,7 @@ export const columns: ColumnDef<ProductInfo>[] = [
     cell: ({ row }) => {
       return (
         <div className="hidden text-right md:block">
-          {number2unit(row.getValue('volumn'))}
+          {number2unit(row.getValue(COLUMNS.VOLUMN))}
         </div>
       );
     },

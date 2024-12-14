@@ -26,7 +26,8 @@ import {
 import { useEffect, useState } from 'react';
 import MarketListPagination from './MarketListPagination';
 import SearchBox from '../MarketGroup/SearchBox';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useMediaQuery } from 'react-responsive';
+import { COLUMNS } from '@/data/table';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -39,8 +40,6 @@ export function DataTable<TData, TValue>({
   data,
   skipPageResetRef,
 }: DataTableProps<TData, TValue>) {
-  const searchParams = useSearchParams();
-  const router = useRouter();
   const [sorting, setSorting] = useState<SortingState>([
     { id: 'volumn', desc: true },
   ]);
@@ -60,12 +59,36 @@ export function DataTable<TData, TValue>({
       volumn: true,
     });
 
+  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+
   useEffect(() => {
-    const page = parseInt(searchParams.get('p') as string, 10);
-    if (!isNaN(page)) {
-      table.setPageIndex(page - 1);
+    if (isMobile) {
+      setColumnVisibility(prev => ({
+        ...prev,
+        high_low: false,
+        volumn: false,
+      }));
+    } else {
+      setColumnVisibility(prev => ({
+        ...prev,
+        high_low: true,
+        volumn: true,
+      }));
     }
-  }, []);
+  }, [isMobile]);
+
+  // useEffect(() => {
+  //   const page = parseInt(searchParams.get('p') ?? '1', 10);
+  //   if (!isNaN(page)) {
+  //     table.setPageIndex(page - 1);
+  //   }
+  // }, []);
+
+  useEffect(() => {
+    if (table.getState().pagination.pageIndex + 1 > table.getPageCount()) {
+      table.resetPageIndex(true);
+    }
+  });
 
   useEffect(() => {
     // Reset the flag after the table has updated
@@ -83,7 +106,8 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     onPaginationChange: setPagination,
     onColumnVisibilityChange: setColumnVisibility,
-    autoResetPageIndex: !skipPageResetRef.current,
+    // autoResetPageIndex: !skipPageResetRef.current,
+    autoResetPageIndex: false,
     autoResetExpanded: !skipPageResetRef.current,
     state: {
       sorting,
@@ -109,10 +133,10 @@ export function DataTable<TData, TValue>({
     <>
       <SearchBox
         value={
-          (table.getColumn('symbol')?.getFilterValue() as string) ?? ''
+          (table.getColumn(COLUMNS.BASE)?.getFilterValue() as string) ?? ''
         }
         onChange={event =>
-          table.getColumn('symbol')?.setFilterValue(event.target.value)
+          table.getColumn(COLUMNS.BASE)?.setFilterValue(event.target.value)
         }
       />
       <Table>

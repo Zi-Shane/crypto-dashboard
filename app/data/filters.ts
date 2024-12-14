@@ -12,12 +12,12 @@ export const FiltersL1 = [
 
 export const FiltersL2 = [
   { tag: 'Seed', value: 'Seed' },
-  { tag: 'LaunchpoolNew', value: 'Launchpool' },
-  { tag: 'MegadropNew', value: 'Megadrop' },
+  { tag: 'Launchpool', value: 'Launchpool' },
+  { tag: 'Megadrop', value: 'Megadrop' },
   { tag: 'Gaming', value: 'Gaming' },
   { tag: 'defi', value: 'DeFi' },
   { tag: 'Monitoring', value: 'Monitoring' },
-  { tag: 'liquid_Staking', value: 'Liquid Staking' },
+  { tag: 'liquid_staking', value: 'Liquid Staking' },
   { tag: 'fan_token', value: 'Fan Token' },
   { tag: 'Infrastructure', value: 'Infrastructure' },
   { tag: 'bnbchain', value: 'BNB Chain' },

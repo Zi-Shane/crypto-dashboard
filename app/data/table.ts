@@ -1,6 +1,8 @@
 export const COLUMNS = {
   SYMBOL: 'symbol',
-  LAST_PRICE: 'lastPrice',
+  BASE: 'base',
+  QUOTE: 'quote',
+  LAST_PRICE: 'current',
   PERCENTAGE: 'percentage',
   HIGH_LOW: 'high_low',
   VOLUMN: 'volumn',

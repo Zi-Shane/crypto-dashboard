@@ -23,7 +23,7 @@ export async function getProductsInfo() {
         low: item.l,
         high_low: stringifyHighLow(item.l, item.h),
         percentage: calPercentage(Number(item.o), Number(item.c)),
-        volumn: item.qv,
+        volumn: (parseFloat(item.c) * item.cs).toFixed(2),
         tags: item.tags,
       };
     });
