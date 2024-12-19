@@ -7,6 +7,7 @@ import HeaderWithSort from './HeaderWithSort';
 import ConditionalPercentage from './ConditionalPercentage';
 import { ColumnDef } from '@tanstack/react-table';
 import Image from 'next/image';
+import { BasePath } from '@/data/settings';
 
 export const columns: ColumnDef<ProductInfo>[] = [
   {
@@ -30,7 +31,7 @@ export const columns: ColumnDef<ProductInfo>[] = [
             className="mr-2 inline-block h-6 w-6"
             width={24}
             height={24}
-            src={`/crypto-icon/${row.original.base}.png`}
+            src={`${BasePath}/crypto-icon/${row.original.base}.png`}
             alt={`${row.original.base}`}
             loading="lazy"
           ></Image>

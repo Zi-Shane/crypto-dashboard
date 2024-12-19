@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { columns } from './columns';
 import { ProductInfo } from '@/data/type';
 import { DataTable } from './DataTable';
@@ -34,11 +34,13 @@ const FilteredTable = ({
         defaultValue={DefaultFilter}
         className="py-4"
       />
-      <DataTable
-        columns={columns}
-        data={filteredData}
-        skipPageResetRef={skipPageResetRef}
-      />
+      <Suspense>
+        <DataTable
+          columns={columns}
+          data={filteredData}
+          skipPageResetRef={skipPageResetRef}
+        />
+      </Suspense>
     </>
   );
 };
