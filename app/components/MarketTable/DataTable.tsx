@@ -49,7 +49,7 @@ export function DataTable<TData, TValue>({
   );
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 20,
+    pageSize: 30,
   });
   const [columnVisibility, setColumnVisibility] =
     useState<VisibilityState>({

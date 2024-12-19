@@ -6,6 +6,7 @@ import { number2unit } from '@/lib/formater';
 import HeaderWithSort from './HeaderWithSort';
 import ConditionalPercentage from './ConditionalPercentage';
 import { ColumnDef } from '@tanstack/react-table';
+import Image from 'next/image';
 
 export const columns: ColumnDef<ProductInfo>[] = [
   {
@@ -25,11 +26,14 @@ export const columns: ColumnDef<ProductInfo>[] = [
     cell: ({ row }) => {
       return (
         <div className="min-w-[100px]">
-          <img
+          <Image
             className="mr-2 inline-block h-6 w-6"
-            src={`crypto-icon/${row.original.base}.png`}
+            width={24}
+            height={24}
+            src={`/crypto-icon/${row.original.base}.png`}
             alt={`${row.original.base}`}
-          ></img>
+            loading="lazy"
+          ></Image>
           {row.getValue(COLUMNS.BASE)}
         </div>
       );
